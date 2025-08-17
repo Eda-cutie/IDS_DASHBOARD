@@ -14,8 +14,6 @@ import plotly.express as px
 from sklearn.ensemble import RandomForestClassifier, IsolationForest
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
-from google.colab import files
-import io
 
 @st.cache_data
 def load_data(file_path):
