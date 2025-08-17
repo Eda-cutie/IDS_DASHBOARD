@@ -34,7 +34,7 @@ st.title("🌌 Neon Intrusion Detection System (IDS) Dashboard")
 @st.cache_data
 def load_data():
     # Example dataset (replace with your real one or Google Drive/Kaggle link)
-    url = "https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv"
+    url = "https://drive.google.com/file/d/1VuDaADaAHFI2BNHcapXt4iA3qTXyIckB/view?usp=drive_link"
     df = pd.read_csv(url)
     return df
 
