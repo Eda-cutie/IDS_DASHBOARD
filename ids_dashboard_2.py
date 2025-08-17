@@ -23,7 +23,7 @@ st.markdown("Detect anomalies in network traffic (DoS/DDoS) using **Isolation Fo
 @st.cache_data
 def load_data():
     # ⚠️ Replace this link with your Google Drive / Dropbox / Kaggle public CSV link
-    url = 'https://drive.google.com/file/d/1VuDaADaAHFI2BNHcapXt4iA3qTXyIckB/view?usp=drive_link"
+    url = 'https://drive.google.com/file/d/1VuDaADaAHFI2BNHcapXt4iA3qTXyIckB/view?usp=drive_link'
     df = pd.read_csv(url)
 
     # Example: If your dataset has labels, ensure they're handled
