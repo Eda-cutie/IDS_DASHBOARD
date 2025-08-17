@@ -23,7 +23,7 @@ st.markdown("Detect anomalies in network traffic (DoS/DDoS) using **Isolation Fo
 @st.cache_data
 def load_data():
     # ⚠️ Replace this link with your Google Drive / Dropbox / Kaggle public CSV link
-    url = "https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv"
+    url = 'CICIDS2017 Revised.csv'
     df = pd.read_csv(url)
 
     # Example: If your dataset has labels, ensure they're handled
