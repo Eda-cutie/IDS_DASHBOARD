@@ -1,0 +1,12 @@
+streamlit
+pandas
+numpy
+plotly.express
+sklearn.ensemble
+RandomForestClassifier
+IsolationForest
+sklearn.model_selection
+train_test_split
+sklearn.metrics
+confusion_matrix
+classification_report
