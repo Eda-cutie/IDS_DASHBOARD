@@ -19,7 +19,8 @@ import io
 
 @st.cache_data
 def load_data(file_path):
-    df = pd.read_csv("CICIDS2017 Revised.csv")
+    url="https://drive.google.com/file/d/1VuDaADaAHFI2BNHcapXt4iA3qTXyIckB/view?usp=drive_link"
+    df = pd.read_csv(url)
     return df
 
 st.sidebar.title("Upload Dataset")
