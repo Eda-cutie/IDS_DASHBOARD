@@ -89,22 +89,44 @@ if uploaded_file is not None:
     report_iso = classification_report(y_test, y_pred_iso, output_dict=True)
     report_rf  = classification_report(y_test, y_pred_rf, output_dict=True)
 
-    # ROC for RandomForest
-    if len(rf.classes_) == 2:
-        fpr_rf, tpr_rf, _ = roc_curve(
-            y_test.map({'BENIGN':0, 'ATTACK':1}),
-            rf.predict_proba(X_test)[:, 1]
-        )
-        roc_auc_rf = auc(fpr_rf, tpr_rf)
-    else:
-        fpr_rf, tpr_rf, roc_auc_rf = [0], [0], 0.0
+    # --- Random Forest ROC ---
+    if hasattr(rf, "predict_proba"):
+       # Probabilities for the positive class (ATTACK)
+       y_prob_rf = rf.predict_proba(X_test)[:, 1]
 
-    # ROC for IsolationForest
-    fpr_iso, tpr_iso, _ = roc_curve(
-        y_test.map({'BENIGN':0, 'ATTACK':1}),
-        (y_pred_iso == "ATTACK").astype(int)
-    )
+       fpr_rf, tpr_rf, _ = roc_curve(y_test, y_prob_rf, pos_label="ATTACK")
+       roc_auc_rf = auc(fpr_rf, tpr_rf)
+
+       fig_rf, ax_rf = plt.subplots()
+       ax_rf.plot(fpr_rf, tpr_rf, color="blue", lw=2,
+               label=f"RF (AUC = {roc_auc_rf:.2f})")
+       ax_rf.plot([0, 1], [0, 1], color="black", lw=2, linestyle="--")
+       ax_rf.set_xlabel("False Positive Rate")
+       ax_rf.set_ylabel("True Positive Rate")
+       ax_rf.set_title("ROC Curve - Random Forest")
+       ax_rf.legend(loc="lower right")
+       st.pyplot(fig_rf)
+
+
+    # --- Isolation Forest ROC ---
+    # Convert y_test into binary {0,1}
+    y_test_bin = (y_test == "ATTACK").astype(int)
+
+    # Isolation Forest gives anomaly scores (lower = more normal, higher = anomaly)
+    y_scores_iso = -iso.decision_function(X_test)
+
+    fpr_iso, tpr_iso, _ = roc_curve(y_test_bin, y_scores_iso)
     roc_auc_iso = auc(fpr_iso, tpr_iso)
+
+    fig_iso, ax_iso = plt.subplots()
+    ax_iso.plot(fpr_iso, tpr_iso, color="red", lw=2,
+            label=f"ISO (AUC = {roc_auc_iso:.2f})")
+    ax_iso.plot([0, 1], [0, 1], color="black", lw=2, linestyle="--")
+    ax_iso.set_xlabel("False Positive Rate")
+    ax_iso.set_ylabel("True Positive Rate")
+    ax_iso.set_title("ROC Curve - Isolation Forest")
+    ax_iso.legend(loc="lower right")
+    st.pyplot(fig_iso)
 
     # Confusion matrices
     cm_rf  = confusion_matrix(y_test, y_pred_rf,  labels=['BENIGN','ATTACK'])
