@@ -45,8 +45,8 @@ with st.sidebar:
 def preprocess_data(df):
     df = df.dropna()
     le = LabelEncoder()
-    if " Label" in df.columns:
-        df[" Label"] = le.fit_transform(df[" Label"])
+    if "Label" in df.columns:
+        df["Label"] = le.fit_transform(df["Label"])
     return df
 
 def train_random_forest(X_train, y_train, X_test, y_test):
