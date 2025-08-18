@@ -83,11 +83,15 @@ if uploaded_file is not None:
     report_rf  = classification_report(y_test, y_pred_rf, output_dict=True)
 
     # ROC for RandomForest (use probabilities)
-    fpr_rf, tpr_rf, _ = roc_curve(
+    if len(rf.classes_) == 2:
+        fpr_rf, tpr_rf, _ = roc_curve(
         y_test.map({'BENIGN':0, 'ATTACK':1}),
         rf.predict_proba(X_test)[:, 1]
-    )
-    roc_auc_rf = auc(fpr_rf, tpr_rf)
+        )
+        roc_auc_rf = auc(fpr_rf, tpr_rf)
+    else:
+        st.warning("⚠️ RandomForest was trained on only one class. ROC cannot be computed.")
+        fpr_rf, tpr_rf, roc_auc_rf = [0], [0], 0.0
 
     # ROC for IsolationForest (binary predictions only)
     fpr_iso, tpr_iso, _ = roc_curve(
