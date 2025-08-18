@@ -92,7 +92,11 @@ if uploaded_file is not None:
     # --- Random Forest ROC ---
     if hasattr(rf, "predict_proba"):
        # Probabilities for the positive class (ATTACK)
-       y_prob_rf = rf.predict_proba(X_test)[:, 1]
+       if hasattr(rf, "predict_proba"):
+           y_prob_rf = rf.predict_proba(X_test)[:, list(rf.classes_).index("ATTACK")]
+       else:
+           # Fallback: use decision_function or predictions (not ideal)
+           y_prob_rf = rf.predict(X_test)
 
        fpr_rf, tpr_rf, _ = roc_curve(y_test, y_prob_rf, pos_label="ATTACK")
        roc_auc_rf = auc(fpr_rf, tpr_rf)
