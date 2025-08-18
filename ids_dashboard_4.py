@@ -127,7 +127,7 @@ if uploaded_file is not None:
 
     if model_choice == "IsolationForest":
         st.subheader("Isolation Forest (Unsupervised)")
-        st.metric("ROC-AUC", f"{roc_auc_iso:.3f}")
+        st.metric(
         fig_iso, ax_iso = plt.subplots()
         ax_iso.plot(fpr_iso, tpr_iso, color="red", lw=2,
             label=f"ISO (AUC = {roc_auc_iso:.2f})")
@@ -136,7 +136,7 @@ if uploaded_file is not None:
         ax_iso.set_ylabel("True Positive Rate")
         ax_iso.set_title("ROC Curve - Isolation Forest")
         ax_iso.legend(loc="lower right")
-        st.pyplot(fig_iso)
+        st.pyplot(fig_iso))
         st.write("Classification Report:", pd.DataFrame(report_iso).transpose())
 
         fig_cm, ax = plt.subplots()
@@ -154,7 +154,7 @@ if uploaded_file is not None:
 
     elif model_choice == "RandomForest":
         st.subheader("Random Forest (Supervised)")
-        st.metric("ROC-AUC", f"{roc_auc_rf:.3f}")
+        st.metric(
         fpr_rf, tpr_rf, _ = roc_curve(y_test, y_prob_rf, pos_label="ATTACK")
         roc_auc_rf = auc(fpr_rf, tpr_rf)
 
@@ -166,7 +166,7 @@ if uploaded_file is not None:
         ax_rf.set_ylabel("True Positive Rate")
         ax_rf.set_title("ROC Curve - Random Forest")
         ax_rf.legend(loc="lower right")
-        st.pyplot(fig_rf)
+        st.pyplot(fig_rf))
         st.write("Classification Report:", pd.DataFrame(report_rf).transpose())
 
         fig_cm, ax = plt.subplots()
