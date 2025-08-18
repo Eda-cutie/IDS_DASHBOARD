@@ -41,6 +41,7 @@ if uploaded_file is not None:
     # ================================
     X = df.drop(columns=['Label'])
     y = df['Label']
+    y = y.apply(lambda x: "BENIGN" if x.upper() == "BENIGN" else "ATTACK")
 
     # ================================
     # 4. TRAIN/TEST SPLIT
